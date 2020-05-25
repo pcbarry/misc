@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/enp/w/general-scifs17exp/JAM/nsato/jam'
+let g:netrw_dirhist_2='/u/home/barryp/.vim'
+let g:netrw_dirhist_3='/w/general-scifs17exp/JAM/barryp/JAM/analysis-pions/resultsxF/xF0p7/step12/msr'
