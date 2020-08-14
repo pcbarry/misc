@@ -168,10 +168,12 @@ class RESIDUALS_PIONS(_RESIDUALS):
 
     else:
         thy=conf['dy-pion'].get_xsec_mell_hybrid(k,i,Q2) * Jac * units
-    if conf['pdf-pion parametrization']=='resum':
+    if conf['pdf-pion parametrization']=='resum exact':
         S=self.tabs[k]['S'][i]
+        tau=Q2/S
         Y=self.tabs[k]['Y'][i]
-        thy+=conf['resummed dy-pion'].get_interpolated(S,Y,Q2,Q2) * Jac * units
+        thy+=conf['resummed dy-pion'].get_xsec(tau,Y,Q2,Q2) * Jac * units
+        #thy+=0
     return thy
 
   def _get_resum_theory(self,entry): 
