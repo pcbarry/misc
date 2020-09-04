@@ -43,30 +43,6 @@ class DYRESEXACT:
     def get_lum(self,fA,fB,muR2,muF2,Mconj=False):
         Nf=self.alphaS.get_Nf(muR2)
 
-       # if Mconj==True:
-       #     out= self.eU2*(fA.storage[muF2]['u']  * np.conj(fB.res_storage[muF2]['ub'])\
-       #                   +fA.storage[muF2]['ub'] * np.conj(fB.res_storage[muF2]['u']))\
-       #         +self.eD2*(fA.storage[muF2]['d']  * np.conj(fB.res_storage[muF2]['db'])\
-       #                   +fA.storage[muF2]['db'] * np.conj(fB.res_storage[muF2]['d']))\
-       #         +self.eD2*(fA.storage[muF2]['s']  * np.conj(fB.res_storage[muF2]['sb'])\
-       #                   +fA.storage[muF2]['sb'] * np.conj(fB.res_storage[muF2]['s']))
-       #     if Nf>3: out+=self.eU2*(fA.storage[muF2]['c']  * np.conj(fB.res_storage[muF2]['cb'])\
-       #                   +fA.storage[muF2]['cb'] * np.conj(fB.res_storage[muF2]['c']))
-       #     if Nf>4: out+=self.eD2*(fA.storage[muF2]['b']  * np.conj(fB.res_storage[muF2]['bb'])\
-       #                   +fA.storage[muF2]['bb'] * np.conj(fB.res_storage[muF2]['b']))
-
-       # elif Mconj==False:
-       #     out= self.eU2*(fA.storage[muF2]['u']  * fB.res_storage[muF2]['ub']\
-       #                   +fA.storage[muF2]['ub'] * fB.res_storage[muF2]['u'])\
-       #         +self.eD2*(fA.storage[muF2]['d']  * fB.res_storage[muF2]['db']\
-       #                   +fA.storage[muF2]['db'] * fB.res_storage[muF2]['d'])\
-       #         +self.eD2*(fA.storage[muF2]['s']  * fB.res_storage[muF2]['sb']\
-       #                   +fA.storage[muF2]['sb'] * fB.res_storage[muF2]['s'])
-       #     if Nf>3: out+=self.eU2*(fA.storage[muF2]['c']  * fB.res_storage[muF2]['cb']\
-       #                   +fA.storage[muF2]['cb'] * fB.res_storage[muF2]['c'])
-       #     if Nf>4: out+=self.eD2*(fA.storage[muF2]['b']  * fB.res_storage[muF2]['bb']\
-       #                   +fA.storage[muF2]['bb'] * fB.res_storage[muF2]['b'])
-
         if Mconj==True:
             out= self.eU2*(np.einsum('i,j->ij',fA.storage[muF2]['u'],np.conj(fB.res_storage[muF2]['ub']))\
                           +np.einsum('i,j->ij',fA.storage[muF2]['ub'],np.conj(fB.res_storage[muF2]['u'])))\
@@ -92,7 +68,7 @@ class DYRESEXACT:
                           +np.einsum('i,j->ij',fA.storage[muF2]['bb'],fB.res_storage[muF2]['b']))
         return out
 
-    def _get_omega(self,N1,N2,muR2,muF2):
+    def _get_omega(self,N1,N2,muR2,muF2,Q2):
         CA,CF,euler=self.CA,self.CF,self.euler
 
         Nf=self.alphaS.get_Nf(muR2)
@@ -108,36 +84,42 @@ class DYRESEXACT:
         #lam2=b0*aS*np.log(N2bar)
         lam1=b0*aS*np.einsum('i,j->ij',np.log(N1bar),I2)
         lam2=b0*aS*np.einsum('i,j->ij',I1,np.log(N2bar))
+        lam=lam1+lam2
         Aq1=CF
         Aq2=1.0/2.0*CF*(CA*(67.0/18.0-np.pi**2/6.0)-5.0/9.0*Nf)
 
         Cq=aS/np.pi*CF*(-4+2*np.pi**2/3.0)
-        h1=Aq1/np.pi/b0/(lam1+lam2)*(lam1+lam2+(1-lam1-lam2)*np.log(1-lam1-lam2))
-        h2=Aq1*b1/2.0/np.pi/b0**3*(2*(lam1+lam2+lam1*np.log(1-lam1)+lam2*np.log(1-lam2))\
-                                   +(2-lam1)*np.log(1-lam1)**2+(2-lam2)*np.log(1-lam2)**2\
-                                   +(1-lam1-lam2)*(2-np.log(1-lam1-lam2))*np.log(1-lam1-lam2))\
-                -Aq2/b0**2/np.pi**2*(lam1+lam2+np.log(1-lam1-lam2))
+        h1=Aq1/np.pi/b0/lam*(lam+(1-lam)*np.log(1-lam))
+        h2=(np.pi*Aq1*b1-b0*Aq2)*(lam+np.log(1-lam))/np.pi**2/b0**3\
+                +Aq1*b1/2.0/np.pi/b0**3*np.log(1-lam)**2
 
-        match=1.0+Aq1*aS/6.0/np.pi*(-24+4*np.pi**2+3*np.log(N1bar)**2+3*np.log(N2bar)**2+6*np.log(N1bar)*np.log(N2bar))
+        match=1.0+aS/6.0/np.pi*(CF*(-24+4*np.pi**2)+3*Aq1*(np.log(N1bar)+np.log(N2bar))**2)
 
         if muF2!=muR2:
-            Cq+=aS/np.pi*CF*3.0/2.0*np.log(muR2/muF2)
-            h2+=Aq1/b0/np.pi*(np.log(1-lam1-lam2)*np.log(muR2/muF2))
-            match+=Aq1*aS/6.0/np.pi*(9*np.log(muR2/muF2)-6*(np.log(N1bar)+np.log(N2bar))*np.log(muR2/muF2))
+            #Cq+=aS/np.pi*CF*3.0/2.0*np.log(muR2/muF2)
+            #h2+=Aq1/b0/np.pi*(np.log(1-lam1-lam2)*np.log(muR2/muF2))
+            h2+=Aq1/b0/np.pi*lam*np.log(muF2/muR2)
+            #match+=Aq1*aS/6.0/np.pi*(9*np.log(muR2/muF2)-6*(np.log(N1bar)+np.log(N2bar))*np.log(muR2/muF2))
+            match+=Aq1*aS/np.pi*(np.log(N1bar)+np.log(N2bar))*np.log(muF2/muR2)
+
+        if Q2!=muR2:
+            Cq+=aS/np.pi*CF*3.0/2.0*np.log(Q2/muR2)
+            h2+=Aq1/b0/np.pi*np.log(1-lam)*np.log(Q2/muR2)
+            match+=aS/2.0/np.pi*(3*CF-2*Aq1*(np.log(N1bar)+np.log(N2bar)))*np.log(Q2/muR2)
 
         logomega=Cq+h1*(np.log(N1bar)+np.log(N2bar))+h2
         return np.exp(logomega)-match
 
-    def get_omega(self,muR2,muF2):
-        if (muR2,muF2) not in self.storage: 
-            self.storage[(muR2,muF2)]={}
-            self.storage[(muR2,muF2)]['NM']=self._get_omega(self.mell.N,self.mell.M[muF2],muR2,muF2)
-            self.storage[(muR2,muF2)]['NMs']=self._get_omega(self.mell.N,np.conj(self.mell.M[muF2]),muR2,muF2)
-        return self.storage[(muR2,muF2)]
+    def get_omega(self,muR2,muF2,Q2):
+        if (muR2,muF2,Q2) not in self.storage: 
+            self.storage[(muR2,muF2,Q2)]={}
+            self.storage[(muR2,muF2,Q2)]['NM']=self._get_omega(self.mell.N,self.mell.M[muF2],muR2,muF2,Q2)
+            self.storage[(muR2,muF2,Q2)]['NMs']=self._get_omega(self.mell.N,np.conj(self.mell.M[muF2]),muR2,muF2,Q2)
+        return self.storage[(muR2,muF2,Q2)]
 
-    def get_xsec(self,tau,Y,muR2,muF2,verb=False):
+    def get_xsec(self,tau,Y,muR2,muF2,Q2,verb=False):
         if verb: print 'computing omega'
-        omega=self.get_omega(muR2,muF2)
+        omega=self.get_omega(muR2,muF2,Q2)
         if verb: print 'evolving pdfs'
         self.pdfA.evolve(muF2)
         self.pdfB.evolve(muF2)
@@ -151,7 +133,7 @@ class DYRESEXACT:
         if verb: print 'inverting'
         x10term=(tau**0.5*np.exp(Y))**(-self.mell.N)
         x20term=(tau**0.5*np.exp(-Y))**(-self.mell.M[muF2])
-        sig=self.mell.invert(muR2,x10term,x20term,sigNM,sigNMs)
+        sig=self.mell.invert(muF2,x10term,x20term,sigNM,sigNMs)
 
         aEM=conf['eweak'].get_alpha(muR2)
         S=muF2/tau

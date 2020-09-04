@@ -12,7 +12,6 @@ class DMELLIN:
 
     def __init__(self,muF2vals,nptsN=8,nptsM=8,extN=True,extM=True):
 
-        print np.unique(muF2vals)
         xN,wN=np.polynomial.legendre.leggauss(nptsN)
         xM,wM=np.polynomial.legendre.leggauss(nptsM)
         znodesN=[0,0.1,0.3,0.6,1.0,1.6,2.4,3.5,5,7,10,14,19,25,32,40,50,63]
@@ -61,22 +60,18 @@ class DMELLIN:
             CA=3.0
             b0=1.0/12.0/np.pi*(11*CA-2*Nf)
             Nlandau=1.0/self.N*np.exp(1.0/aS/b0-2*euler)
+            if 'westmark' in conf and conf['westmark']==True:
+                Nlandau=1.0/self.N*np.exp(1.0/aS/b0)
             thetac=-np.arctan2(Nlandau.imag,Nlandau.real-cN)
             phi2nominal=phi1
             phi2other=(thetac+np.pi)/2
-            #print phi2other,phi2nominal[0]
             phi2=[]
-            #M['muF2=%.2f'%muF2]=[]
             M[muF2]=[]
             for i in range(len(thetac)):
                 phi2.append(max(phi2nominal[i],phi2other[i]))
-                #M['muF2=%.2f'%muF2].append(cM+ZM[i]*np.exp(complex(0,phi2[i])))
                 M[muF2].append(cM+ZM[i]*np.exp(complex(0,phi2[i])))
-            #M['muF2=%.2f'%muF2]=np.array(M['muF2=%.2f'%muF2])
             M[muF2]=np.array(M[muF2])
             phase2[muF2]=np.array([np.exp(complex(0,phi2[i])) for i in range(len(phi2))])
-            #self.phase1=np.array([np.exp(complex(0,phi+phi2[i])) for i in range(len(ZM))])
-            #self.phase2=np.array([np.exp(complex(0,phi-phi2[i])) for i in range(len(ZM))])
         self.phase2=phase2
         self.M=M
 

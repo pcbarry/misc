@@ -172,8 +172,7 @@ class RESIDUALS_PIONS(_RESIDUALS):
         S=self.tabs[k]['S'][i]
         tau=Q2/S
         Y=self.tabs[k]['Y'][i]
-        thy+=conf['resummed dy-pion'].get_xsec(tau,Y,Q2,Q2) * Jac * units
-        #thy+=0
+        thy+=conf['resummed dy-pion'].get_xsec(tau,Y,Q2,Q2,Q2) * Jac * units
     return thy
 
   def _get_resum_theory(self,entry): 
