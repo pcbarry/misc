@@ -1,0 +1,82 @@
+#!/usr/bin/bash
+
+#--root
+
+git submodule add git@github.com:JeffersonLab/database.git 
+git submodule add git@github.com:JeffersonLab/nuclib.git  
+
+#--obslib
+git submodule add git@github.com:JeffersonLab/idis.git      obslib/idis
+#git submodule add git@github.com:JeffersonLab/pidis.git     obslib/pidis
+#git submodule add git@github.com:JeffersonLab/sia.git       obslib/sia
+#git submodule add git@github.com:JeffersonLab/sidis.git     obslib/sidis
+#git submodule add git@github.com:JeffersonLab/psidis.git    obslib/psidis
+#git submodule add git@github.com:JeffersonLab/jets.git      obslib/jets
+#git submodule add git@github.com:JeffersonLab/pjets.git     obslib/pjets
+#git submodule add git@github.com:JeffersonLab/ln.git        obslib/ln
+#git submodule add git@github.com:JeffersonLab/dy.git        obslib/dy
+#git submodule add git@github.com:JeffersonLab/pion_qT.git   obslib/pion_qT
+#git submodule add git@github.com:JeffersonLab/quasipdf.git  obslib/quasipdf
+#git submodule add git@github.com:JeffersonLab/wz.git        obslib/wz
+#git submodule add git@github.com:JeffersonLab/wzrv.git      obslib/wzrv
+#git submodule add git@github.com:JeffersonLab/wasym.git     obslib/wasym
+#git submodule add git@github.com:JeffersonLab/zrap.git      obslib/zrap
+
+#--grids
+git submodule add git@github.com:JeffersonLab/grids-idis.git          grids/grids-idis
+#git submodule add git@github.com:JeffersonLab/grids-pidis.git         grids/grids-pidis
+#git submodule add git@github.com:JeffersonLab/grids-sidis.git         grids/grids-sidis
+#git submodule add git@github.com:JeffersonLab/grids-dy.git            grids/grids-dy
+#git submodule add git@github.com:JeffersonLab/grids-dypion.git        grids/grids-dypion
+#git submodule add git@github.com:JeffersonLab/grids-jets.git          grids/grids-jets
+#git submodule add git@github.com:JeffersonLab/grids-pjets.git         grids/grids-pjets
+#git submodule add git@github.com:JeffersonLab/grids-quasipdf.git      grids/grids-quasipdf
+#git submodule add git@github.com:JeffersonLab/grids-wzrv.git          grids/grids-wzrv
+#git submodule add git@github.com:JeffersonLab/grids-wasym.git         grids/grids-asym
+#git submodule add git@github.com:JeffersonLab/grids-zrap.git          grids/grids-zrap
+
+#--sync commands, DO NOT comment out
+git submodule update --init
+git submodule foreach 'echo $name && git checkout master && git pull'
+
+#--remove the submodules from the stage
+#--comment out the submodules you have cloned
+git reset HEAD   .gitmodules
+
+#--root
+git reset HEAD   database
+git reset HEAD   nuclib
+
+#--obslib
+git reset HEAD  obslib/idis
+#git reset HEAD  obslib/pidis
+#git reset HEAD  obslib/sia
+#git reset HEAD  obslib/sidis
+#git reset HEAD  obslib/psidis
+#git reset HEAD  obslib/jets
+#git reset HEAD  obslib/pjets
+#git reset HEAD  obslib/ln
+#git reset HEAD  obslib/dy
+#git reset HEAD  obslib/pion_qT
+#git reset HEAD  obslib/quasipdf
+#git reset HEAD  obslib/wz
+#git reset HEAD  obslib/wzrv
+#git reset HEAD  obslib/wasym
+#git reset HEAD  obslib/zrap
+
+#--grids
+git reset HEAD  grids/grids-idis
+#git reset HEAD  grids/grids-pidis
+#git reset HEAD  grids/grids-sidis
+#git reset HEAD  grids/grids-dy
+#git reset HEAD  grids/grids-dypion
+#git reset HEAD  grids/grids-jets
+#git reset HEAD  grids/grids-pjets
+#git reset HEAD  grids/grids-quasipdf
+#git reset HEAD  grids/grids-wzrv
+#git reset HEAD  grids/grids-wasym
+#git reset HEAD  grids/grids-zrap
+
+
+
+

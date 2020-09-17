@@ -1,0 +1,11 @@
+*.dat
+*.json
+*.pyc
+*.swp
+
+analyzes/*
+fits/*
+
+.DS_Store
+aws*
+Dockerfile
