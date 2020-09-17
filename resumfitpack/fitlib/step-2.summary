@@ -1,0 +1,34 @@
+JAM FITTER
+count = 8290
+elapsed time(mins)=1484.723054
+shifts  = 1
+npts    = 129
+chi2    = 192.342738
+rchi2   = 0.000000
+nchi2   = 5.838754
+chi2tot = 198.181491
+dchi2(iter)  = 0.000011
+dchi2(local) = 0.000000
+pdf(pi) g(2):0.101219
+pdf(pi) dv(1):1.000000
+pdf(pi) sea(2):0.356069
+pdf(pi) msr:1.000000
+pdf(pi) valence(2):0.542712
+pdf(pi) ubv(1):1.000000
+
+reaction: dy
+    idx       col npts      chi2 chi2-npts     rchi2     nchi2
+  10001      E615   71    140.08     69.08      0.00      5.78
+reaction: ln
+    idx       tar       col npts      chi2 chi2-npts     rchi2     nchi2
+   1000         p        H1   58     52.26     -5.74      0.00      0.06
+1    p->pi,n      lambda   1.13724e+00
+2   pdf-pion        g1 N   1.01219e-01
+3   pdf-pion        g1 a  -1.89441e+00
+4   pdf-pion        g1 b   1.26914e+00
+5   pdf-pion        u1 a  -1.07104e+00
+6   pdf-pion        u1 b   1.69690e+00
+7   pdf-pion      ubv1 a  -7.83750e-14
+8   pdf-pion      ubv1 b   1.68519e+00
+9       norm         ln       1000  1.01173e+00
+10       norm    dy-pion      10001  1.38479e+00

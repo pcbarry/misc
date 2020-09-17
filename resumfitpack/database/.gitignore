@@ -1,0 +1,13 @@
+*.pyc
+fits/*
+analyzes/*
+*.swp
+Dockerfile
+*.json
+aws*
+
+## prevent such file in macos to be tracked
+.DS_Store
+
+## prevent temporary file created by microsoft office to be tracked
+~$*

@@ -1,0 +1,18 @@
+# grids-dypion
+
+##--
+10001 - E615, W PDF: EPPS16
+
+10002 - NA10, Epi=194 GeV, W PDF: EPPS16
+
+10003 - NA10, Epi=286 GeV, W PDF: EPPS16
+
+
+
+10001-alt: E615, W PDF: nCTEQ15
+
+10002-alt - NA10, Epi=194 GeV, W PDF: nCTEQ15
+
+10003-alt - NA10, Epi=286 GeV, W PDF: nCTEQ15
+
+

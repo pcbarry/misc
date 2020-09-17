@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+import time
+import os,sys
+import argparse
+import subprocess
+
+
+#--from tools
+from tools.randomstr import id_generator
+from tools.tools import checkdir
+
+#--ATTENTION: user dependent paths
+user    ='username'  
+fitpack ='path-to-fitpack'    
+wdir    ='path-to-working-directory'
+python  ='path-to-your-python-binary'
+
+template="""#!/usr/bin/csh
+
+setenv FITPACK <fitpack>
+setenv PYTHONPATH <fitpack>:/work/JAM/apps/lhapdf2/lib/python2.7/site-packages/
+<python>  <fitpack>/fitlib/maxlike.py  -n 10 -v <verbose> input.py    <prior>
+
+"""
+
+template=template.replace('<python>',python)
+template=template.replace('<fitpack>',fitpack)
+template=template.replace('<wdir>',wdir)
+
+
+def gen_script(prior=None,verbose=100):
+    script=template[:]
+    script=script.replace('<verbose>',str(verbose))
+    if  prior==None: 
+        script=script.replace('<prior>','')
+    else: 
+        script=script.replace('<prior>','-p %s'%prior)
+
+    F=open('current.sh','w')
+    F.writelines(script)
+    F.close()
+
+
+if __name__=='__main__':
+
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument('-p','--prior'    ,type=str,default=None ,help='path to prior')
+    args = ap.parse_args()
+
+    gen_script(args.prior,verbose=1)
+    os.system('chmod +x current.sh')
+    os.system('./current.sh')
+
+

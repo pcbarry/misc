@@ -1,0 +1,15 @@
+the data analysis is in
+
+https://journals.aps.org/prd/abstract/10.1103/PhysRevD.78.052006
+
+to access its data, type in
+
+doi:"10.1103/PhysRevD.78.052006"
+
+and search at
+
+https://www.hepdata.net/
+
+will get
+
+https://www.hepdata.net/record/ins790693

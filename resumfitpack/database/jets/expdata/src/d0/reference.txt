@@ -1,0 +1,19 @@
+the data analysis is in
+
+https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.101.062001
+
+to access its data, type in
+
+doi:"10.1103/PhysRevLett.101.062001"
+
+and search at
+
+https://www.hepdata.net/
+
+will get
+
+https://www.hepdata.net/record/ins779574
+
+data is also available at
+
+https://www-d0.fnal.gov/Run2Physics/WWW/results/final/QCD/Q08A/xsect.txt
