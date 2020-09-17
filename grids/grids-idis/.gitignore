@@ -1,0 +1,8 @@
+*.pyc
+fits/*
+analyzes/*
+*.swp
+Dockerfile
+*.json
+aws*
+.DS_Store
