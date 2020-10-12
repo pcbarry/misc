@@ -126,15 +126,15 @@ class LH:
         t = -kT2/xL - (1-xL)/xL*(self.ML**2-xL*self.mN2)
         DKY = -(kT2+(1-xL)*self.ML**2+xL*self.mK2-(1-xL)*xL*self.mN2)/xL
 
-        if self.model=='s-dep exp':
+        if self.model=='IMF exp':
             #reg = np.exp(2*(self.mN2-sKL)/Lambda**2)
             reg = np.exp((self.mN2-sKL)/self.L_p2KLam**2)
-        elif self.model=='t-dep exp':
+        elif self.model=='cov exp':
             reg = np.exp(2*(t-self.mK2)/self.L_p2KLam**2)
-        elif self.model=='t-dep mon':
+        elif self.model=='cov mon':
             #reg = ((Lambda**2-self.mK2)/(Lambda**2-t))**2
             reg = ((self.L_p2KLam**2-self.mK2)/(self.L_p2KLam**2-t))**2
-        elif self.model=='t-dep mon':
+        elif self.model=='cov dip':
             #reg = ((Lambda**2-self.mK2)/(Lambda**2-t))**2
             reg = ((self.L_p2KLam**2-self.mK2)/(self.L_p2KLam**2-t))**4
         elif self.model=='Regge': 
