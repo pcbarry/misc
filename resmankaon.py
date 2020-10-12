@@ -283,6 +283,7 @@ class RESMAN:
         if 'ffkaon'   in conf: state['ffkaon']   = conf['ffkaon'].get_state()
         if 'ffhadron' in conf: state['ffhadron'] = conf['ffhadron'].get_state()
         if 'pdf-pion' in conf: state['pdf-pion'] = conf['pdf-pion'].get_state()
+        if 'pdf-kaon' in conf: state['pdf-kaon'] = conf['pdf-kaon'].get_state()
         if 'ln'       in conf: state['ln']       = conf['ln'].get_state()
         if 'lh'       in conf: state['lh']       = conf['lh'].get_state()
         if 't4F2'     in conf: state['t4F2']     = conf['t4F2'].get_state()
@@ -303,6 +304,7 @@ class RESMAN:
         if 'ffkaon'    in conf: conf['ffkaon'].set_state(state['ffkaon'])
         if 'ffhadron'  in conf: conf['ffhadron'].set_state(state['ffhadron'])
         if 'pdf-pion'  in conf: conf['pdf-pion'].set_state(state['pdf-pion'])
+        if 'pdf-kaon'  in conf: conf['pdf-kaon'].set_state(state['pdf-kaon'])
         if 'ln'        in conf: conf['ln'].set_state(state['ln'])
         if 'lh'        in conf: conf['lh'].set_state(state['lh'])
         if 't4F2'      in conf: conf['t4F2'].set_state(state['t4F2'])
@@ -579,6 +581,7 @@ class RESMAN:
             res=np.append(res,out[0])
             rres=np.append(rres,out[1])
             nres=np.append(nres,out[2])
+            if 'penalty' in conf and conf['penalty']==True: res=np.append(res,self.parman.check_residual_penalty())
         if 'pion_qT' in conf['datasets']:
             out=self.pion_qTres.get_residuals(calc=calc)
             res=np.append(res,out[0])

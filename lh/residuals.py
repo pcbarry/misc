@@ -2,8 +2,8 @@
 import numpy as np
 from tools.config import conf
 from tools.residuals import _RESIDUALS
-from obslib.ln.reader import READER
-from obslib.ln.theory import LN
+from obslib.lh.reader import READER
+from obslib.lh.theory import LH
 
 class RESIDUALS(_RESIDUALS):
 

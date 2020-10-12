@@ -162,7 +162,7 @@ class PARMAN:
         if 'p->pi,n' in semaphore and semaphore['p->pi,n']==1      : self.set_p_to_pi_n_params()
 
         #--kaon pdfs and spitting functions
-        if 'pdf-kaon' in semaphore and semaphore['pdf-pion']==1    : self.set_pionpdf_params()
+        if 'pdf-kaon' in semaphore and semaphore['pdf-kaon']==1    : self.set_kaonpdf_params()
         if 'p->K,Lam' in semaphore and semaphore['p->K,Lam']==1    : self.set_p_to_K_Lam_params()
 
         #--special pdfs for lattice observables
@@ -298,7 +298,8 @@ class PARMAN:
 
     def set_kaonpdf_params(self):
         if conf['pdf-kaon parametrization']==0:
-            FLAV=['g1','g2','ubv1','ubv2','sv1','sv2','u1','u2','d1','d2','db1','db2','sb1','sb2']
+            #FLAV=['g1','g2','ubv1','ubv2','sv1','sv2','u1','u2','d1','d2','db1','db2','sb1','sb2']
+            FLAV=['g1','ubv1','sv1','u1','d1','db1','sb1']
             PAR=['N','a','b','c','d']
             self.set_params('pdf-kaon',FLAV,PAR)
 
@@ -322,7 +323,14 @@ class PARMAN:
         if conf['offshell parametrization']==2 or conf['offshell parametrization']==3 or conf['offshell parametrization']==4: PAR=['N','x0','x1']
         self.set_params(dist,FLAV,PAR)
 
-
+    def check_residual_penalty(self):
+        res=np.array([0])
+        if 'lh' in conf['datasets']:
+            if conf['pdf-kaon'].params['u1'][0]<0: res[0]=10000.0
+            if conf['pdf-kaon'].params['g1'][0]>1: res[0]=10000.0
+            if conf['pdf-kaon'].params['ubv1'][0]<0: res[0]=10000.0
+            if conf['pdf-kaon'].params['sv1'][0]<0: res[0]=10000.0
+        return res
 
 
 
