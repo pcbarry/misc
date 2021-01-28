@@ -4,6 +4,7 @@ from mpmath import fp,mp
 from scipy.integrate import quad,fixed_quad, simps, dblquad
 from tools.config import conf
 import obslib.idis.aux
+#from obslib.lh.theory import LH
 
 class STFUNCS(obslib.idis.aux.AUX):
   '''
@@ -185,6 +186,41 @@ class LN:
       K=self.get_kinfact(Q2,x,ye)
       return F2pi*f*K
 
+  def get_dsigdxdQ2dxLdt(self,x,Q2,xL,t,s):
+      xpi=x/(1-xL)
+      if xpi>1: return 0
+      ye=Q2/x/s
+      if ye>1: return 0
+      K=self.get_kinfact(Q2,x,ye)
+      kT2=-(t*xL+(1.0-xL)**2*self.mN2)
+      kT2max=0.005*xL*135
+      if kT2>kT2max: return 0
+      f=self.tgrandN(1.0-xL,t,kT2)
+      F2pi=conf['pion-stfuncs'].get_FXN(xpi,Q2)
+      Jac=xL
+      return F2pi*f*K*Jac
+
+  def get_dsigdxdQ2dxLdkT2(self,x,Q2,xL,kT2,s):
+      xpi=x/(1.-xL)
+      if xpi>1: return 0
+      ye=Q2/x/s
+      K=self.get_kinfact(Q2,x,ye)
+      f=self.integrandN(1.0-xL,kT2)
+      F2pi=conf['pion-stfuncs'].get_FXN(xpi,Q2)
+      return F2pi*f*K
+
+  def get_dsigdxdQ2dxLKaon(self,x,xpi,y,Q2,kT2max,ye):
+      F2pi=conf['pion-stfuncs'].get_FXN(xpi,Q2)
+      #f=self.get_fN(y,kT2max)
+      fpikT=lambda kT2: self.integrandN(y,kT2)
+      #lh=LH()
+      lh=conf['lh']
+      xL=1.0-np.array(y)
+      fKkT=lambda kT2: lh.get_fLkT2(xL,kT2)
+      frat=quad(lambda kT2: fKkT(kT2)/fpikT(kT2),0,kT2max)[0]
+      K=self.get_kinfact(Q2,x,ye)
+      return F2pi*frat*K
+
   def get_F2LN(self,xpi,y,Q2,kT2max):
     F2pi=conf['pion-stfuncs'].get_FXN(xpi,Q2)
     #F2pi=self.N*xpi**(self.a0+self.a1*self.eta(Q2))*(1-xpi)
@@ -283,8 +319,8 @@ if __name__=='__main__':
   xpi=x/y
   kT2max=0.4
   deltaxL=0.2
-  print ln.get_F2LN(xpi,y,Q2,kT2max)
-  print ln.get_R(x,xpi,deltaxL,y,Q2,kT2max)
-  print ln.get_dbub(x,Q2)
+  print(ln.get_F2LN(xpi,y,Q2,kT2max))
+  print(ln.get_R(x,xpi,deltaxL,y,Q2,kT2max))
+  print(ln.get_dbub(x,Q2))
 
 

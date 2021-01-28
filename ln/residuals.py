@@ -4,6 +4,7 @@ from tools.config import conf
 from tools.residuals import _RESIDUALS
 from obslib.ln.reader import READER
 from obslib.ln.theory import LN
+from obslib.lh.theory import LH
 
 class RESIDUALS(_RESIDUALS):
 
@@ -11,6 +12,7 @@ class RESIDUALS(_RESIDUALS):
         self.reaction='ln'
         self.tabs=conf['ln tabs']
         self.setup()
+        #conf['lh']=LH()
 
     def _get_theory(self,entry):
         k,i=entry
@@ -18,7 +20,7 @@ class RESIDUALS(_RESIDUALS):
         xpi     =  self.tabs[k]['xpi'][i]
         y       =  self.tabs[k]['y'][i]
         Q2      =  self.tabs[k]['Q2'][i]
-        kT2max  =  self.tabs[k]['kT2max'][i]
+        if 'kT2max' in self.tabs[k]: kT2max  =  self.tabs[k]['kT2max'][i]
         obs     =  self.tabs[k]['obs'][i]
 
         if obs=='F2LN (valence)':
@@ -58,8 +60,27 @@ class RESIDUALS(_RESIDUALS):
             thy=conf['ln'].get_dsigdxdQ2dxL(x,xpi,y,Q2,kT2max,ye)
             units=0.389379372e12
             thy*=units
+        elif obs=='dsig/dQ2dxpidy':
+            ye=self.tabs[k]['ye'][i]
+            thy=conf['ln'].get_dsigdxdQ2dxL(x,xpi,y,Q2,kT2max,ye)
+            units=0.389379372e12
+            thy*=units
+            Jac=self.tabs[k]['Jac'][i]
+            thy*=Jac
+        elif obs=='dsig/dxdQ2dxLdt':
+            s=self.tabs[k]['s'][i]
+            t=self.tabs[k]['t'][i]
+            xL=self.tabs[k]['xL'][i]
+            thy=conf['ln'].get_dsigdxdQ2dxLdt(x,Q2,xL,t,s)
+            units=0.389379372e12
+            thy*=units
+        elif obs=='kaon':
+            ye=self.tabs[k]['ye'][i]
+            thy=conf['ln'].get_dsigdxdQ2dxLKaon(x,xpi,y,Q2,kT2max,ye)
+            units=0.389379372e12
+            thy*=units
         else:
-            print 'ERR: obs not implemented'
+            print('ERR: obs not implemented')
             sys.exit()
         return thy
 
@@ -142,7 +163,7 @@ class RESIDUALS(_RESIDUALS):
       if verb==0:
           return L
       elif verb==1:
-          for l in L: print l
+          for l in L: print(l)
           return L
 
 

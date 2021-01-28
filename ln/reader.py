@@ -23,14 +23,29 @@ class READER(_READER):
       return tab
 
   def get_xpi(self,tab):
-    xpi=tab['x']/tab['y']
-    tab['xpi']=pd.Series(xpi,index=tab.index)
+    if 'xpi' not in tab:
+        xpi=tab['x']/tab['y']
+        tab['xpi']=pd.Series(xpi,index=tab.index)
     return tab
+
+  def get_x(self,tab):
+      if 'x' not in tab:
+          x=tab['xpi']*(1-tab['xL'])
+          tab['x']=pd.Series(x,index=tab.index)
+      return tab
+
+  def get_Jac(self,tab):
+      if 'dsig/dQ2dxpidy' in tab.obs.values[0]:
+        Jac=tab['s']*tab['x']*(1.0-tab['xL'])**2/tab['Q2']
+        tab['Jac']=pd.Series(Jac,index=tab.index)
+      return tab
 
   def modify_table(self,tab):
     tab=self.get_s(tab)
     tab=self.get_ye(tab)
-    tab=self.get_xpi(tab)   
+    tab=self.get_xpi(tab)
+    tab=self.get_x(tab)
+    tab=self.get_Jac(tab)
     tab=self.apply_cuts(tab)
     return tab
 
