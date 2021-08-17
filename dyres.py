@@ -216,7 +216,6 @@ class DYRES:
 
       return griddata(conf['dymell1'].M,raw,M,fill_value=0,method='cubic')
 
-
     def get_xsec(self,S,Y,muR2,muF2):
       tau=muF2/S
       func=lambda M: np.exp(-1j*M*Y)/2./np.pi*self.interpolating_function(tau,muR2,muF2,M)

@@ -1,0 +1,51 @@
+JAM FITTER
+count = 246
+elapsed time(mins)=0.384216
+shifts  = 0
+npts    = 227
+chi2    = 215.374589
+rchi2   = 35.882359
+nchi2   = 24.690298
+chi2tot = 275.947246
+dchi2(iter)  = 0.000003
+dchi2(local) = 0.000000
+pdf msr:1.000000
+pdf uv(1):2.000000
+pdf dv(1):1.000000
+pdf s-sb(1):0.000000
+pdf s-sb(2):-0.000000
+pdf db-ub(1):-79881805856.835938
+pdf db-ub(2):0.017879
+pdf(pi) msr:1.000000
+pdf(pi) ubv(1):1.000000
+pdf(pi) dv(1):1.000000
+pdf(pi) g(2):0.272950
+pdf(pi) sea(2):0.176333
+pdf(pi) valence(2):0.550717
+
+reaction: dy
+    idx       col npts      chi2 chi2-npts     rchi2     nchi2
+  10001      E615   61     51.64     -9.36      0.00      0.42
+  10002      NA10   36     18.17    -17.83      0.00      3.91
+  10003      NA10   20     14.31     -5.69      0.00      3.04
+reaction: ln
+    idx       tar       col npts      chi2 chi2-npts     rchi2     nchi2
+   1000         p        H1   58     22.49    -35.51      0.00     16.69
+   2000         p      ZEUS   50     74.45     24.45     35.88      0.64
+reaction: pITD
+    idx       tar npts      chi2 chi2-npts     rchi2     nchi2
+   1001      pion   18     19.07      1.07      0.00      0.00
+   1002      pion    8     15.24      7.24      0.00      0.00
+1   pdf-pion        g1 N   2.72950e-01
+2   pdf-pion        g1 a  -6.88126e-01
+3   pdf-pion        g1 b   1.43469e+01
+4   pdf-pion        u1 a  -5.34492e-01
+5   pdf-pion        u1 b   6.66310e+00
+6   pdf-pion      ubv1 a  -2.53137e-01
+7   pdf-pion      ubv1 b   9.65466e-01
+8    p->pi,n      lambda   1.28361e+00
+9       norm         ln       1000  1.20425e+00
+10       norm         ln       2000  9.68022e-01
+11       norm    dy-pion      10001  1.10343e+00
+12       norm    dy-pion      10002  9.01131e-01
+13       norm    dy-pion      10003  8.43201e-01

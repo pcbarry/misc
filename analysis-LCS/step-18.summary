@@ -1,0 +1,61 @@
+JAM FITTER
+count = 28577
+elapsed time(mins)=444.438246
+shifts  = 1
+npts    = 291
+chi2    = 618.267839
+rchi2   = 22.218621
+nchi2   = 33.017117
+chi2tot = 673.503576
+dchi2(iter)  = 0.000553
+dchi2(local) = -0.003715
+pdf msr:1.000000
+pdf uv(1):2.000000
+pdf dv(1):1.000000
+pdf s-sb(1):0.000000
+pdf s-sb(2):0.000000
+pdf db-ub(1):-1505831043345091.000000
+pdf db-ub(2):0.014825
+pdf(pi) msr:1.000000
+pdf(pi) ubv(1):1.000000
+pdf(pi) dv(1):1.000000
+pdf(pi) g(2):0.271904
+pdf(pi) sea(2):0.171494
+pdf(pi) valence(2):0.556601
+
+reaction: dy
+    idx       col npts      chi2 chi2-npts     rchi2     nchi2
+  10001      E615   61    110.42     49.42      0.00      0.52
+  10002      NA10   36     46.30     10.30      0.00      3.27
+  10003      NA10   20     29.88      9.88      0.00      3.27
+reaction: ln
+    idx       tar       col npts      chi2 chi2-npts     rchi2     nchi2
+   1000         p        H1   58     56.41     -1.59      0.00     24.76
+   2000         p      ZEUS   50    184.06    134.06     22.22      1.20
+reaction: pITD
+    idx       tar npts      chi2 chi2-npts     rchi2     nchi2
+   1001      pion   18     44.27     26.27      0.00      0.00
+   1002      pion   12     33.81     21.81      0.00      0.00
+reaction: ccLCS
+    idx       tar npts      chi2 chi2-npts     rchi2     nchi2
+  12781      pion   20     17.54     -2.46      0.00      0.00
+  13581      pion   20     36.64     16.64      0.00      0.00
+  14131      pion   12     24.13     12.13      0.00      0.00
+  14132      pion   12     34.81     22.81      0.00      0.00
+1   pdf-pion        g1 N   2.71904e-01
+2   pdf-pion        g1 a  -2.47242e-01
+3   pdf-pion        g1 b   2.45933e+01
+4   pdf-pion        u1 a  -1.20889e-01
+5   pdf-pion        u1 b   8.75148e+00
+6   pdf-pion      ubv1 a  -2.42769e-01
+7   pdf-pion      ubv1 b   9.63678e-01
+8    p->pi,n      lambda   1.42512e+00
+9    lat-sys      b1-mpi  -6.94551e-03
+10    lat-sys        b2-a   3.40555e-03
+11    lat-sys    cL-ccLCS  -2.12092e+00
+12    lat-sys     cL-pITD  -4.52360e-01
+13       norm         ln       1000  1.24879e+00
+14       norm         ln       2000  9.56174e-01
+15       norm    dy-pion      10001  1.11494e+00
+16       norm    dy-pion      10002  9.09537e-01
+17       norm    dy-pion      10003  8.37273e-01

@@ -1,0 +1,182 @@
+#!/usr/bin/env python
+import time
+import os,sys
+import argparse
+import subprocess
+import getpass
+
+#--from tools
+from tools.randomstr import id_generator
+from tools.tools import checkdir
+
+#--user dependent paths
+user    =getpass.getuser()
+path    ='/w/jam-sciwork18/'
+#fitpack ='%s/nsato/jam/fitpack'%path
+fitpack ='/w/jam-sciwork18/barryp/JAM/fitpack2'#os.environ['FITPACK']
+wdir    =os.getcwd()
+#python  ='%s/apps/anaconda2/bin/python'%path
+#python  ='%s/apps/anaconda3/bin/python3.7'%path
+python  ='/home/barryp/.conda/envs/pb3/bin/python'
+
+
+template="""#!/bin/csh
+#SBATCH --account=jam
+#SBATCH --nodes 1
+#SBATCH --partition=production
+#SBATCH --cpus-per-task 5
+#SBATCH --mem=2G
+#SBATCH --time=0-20:00:00
+#SBATCH --constraint=general
+#SBATCH --job-name="<name>"
+#SBATCH --output=<wdir>/<directory>/out/<name>.out
+#SBATCH --error=<wdir>/<directory>/out/<name>.err
+
+setenv FITPACK <fitpack>
+setenv PYTHONPATH <fitpack>:/work/JAM/apps/LHAPDF/lib/python3.6/site-packages/
+#cp <wdir>/input.py  ./
+<python>  <fitpack>/fitlib/maxlike.py  -n 10 -v <verbose> input.py -msrh "mv <<fname>> <wdir>/<directory>/msr/"   <prior>
+
+"""
+
+template=template.replace('<python>',python)
+template=template.replace('<fitpack>',fitpack)
+template=template.replace('<wdir>',wdir)
+
+test_template="""#!/bin/csh
+#SBATCH --account=theory
+#SBATCH --nodes 1
+#SBATCH --partition=theory
+#SBATCH --cpus-per-task 1
+#SBATCH --mem=1G
+#SBATCH --time=0-00:01:00
+#SBATCH --constraint=general
+#SBATCH --job-name="<name>"
+#SBATCH --output=<wdir>/<directory>/out/<name>.out
+#SBATCH --error=<wdir>/<directory>/out/<name>.err
+echo success
+"""
+
+test_template=test_template.replace('<python>',python)
+test_template=test_template.replace('<fitpack>',fitpack)
+test_template=test_template.replace('<wdir>',wdir)
+
+def gen_script(partition,directory,prior=None,verbose=100,echo_test=False):
+    fname='jam-%s'%(id_generator(size=10))
+    if echo_test==False:
+        script=template[:]
+    else:
+        script=test_template[:]
+    script=script.replace('<name>',fname)
+    script=script.replace('<partition>',partition)
+    script=script.replace('<directory>',directory)
+    script=script.replace('<verbose>',str(verbose))
+    if  prior==None: 
+        script=script.replace('<prior>','')
+    else: 
+        script=script.replace('<prior>','-p %s'%prior)
+
+    F=open('current.sbatch','w')
+    F.writelines(script)
+    F.close()
+
+def pexit(msg):
+    print(msg)
+    sys.exit()
+
+if __name__=='__main__':
+
+
+    ap = argparse.ArgumentParser()
+    msg ="-1: echo test"
+    msg+=" 0: gen test sbatch script"
+    msg+=" 1: submit jobs(s)"
+    ap.add_argument('task'             ,type=int,help=msg)
+    ap.add_argument('-d','--directory' ,type=str,default='unamed' 
+                                       ,help='directory name to store results')
+    ap.add_argument('-p','--priors'    ,type=str,default='unamed' ,help='priors')
+    ap.add_argument('-n','--njobs'     ,type=int,default=1 ,help='number of jobs')
+    ap.add_argument('-a','--partition' ,type=str,default='production',help='number of jobs')
+    args = ap.parse_args()
+
+
+    if args.directory=='unamed': pexit('specify -d')
+
+    checkdir('%s/out'%args.directory)
+    checkdir('%s/msr'%args.directory)
+    os.system('cp input.py %s'%args.directory)
+
+    if    args.task==-1:
+
+          partition=args.partition
+          gen_script(partition,args.directory,echo_test=True)
+          os.system('sbatch current.sbatch')
+    
+    elif  args.task==0:
+
+          partition=args.partition
+          path2priors='%s/%s/msr-inspected'%(wdir,args.priors)
+          msr=os.listdir(path2priors)
+
+          path2running='%s/%s/out'%(wdir,args.directory)
+          running = [_.replace('jam-','').replace('.out','.msr') \
+                     for _ in os.listdir(path2running)\
+                     if _.endswith('err')==False]
+
+          done = os.listdir('%s/%s/msr'%(wdir,args.directory))
+          cnt=0
+          for prior in msr[:1]:
+              cnt+=1
+              #if cnt==2: break
+              print('%d/%d'%(cnt,len(msr)))
+              gen_script(partition,args.directory,'%s/%s'%(path2priors,prior),verbose=1)
+              os.system('source current.sbatch')
+
+
+    elif  args.task==1:
+
+          partition=args.partition
+          path2priors='%s/%s/msr-inspected'%(wdir,args.priors)
+          msr=os.listdir(path2priors)
+
+          path2running='%s/%s/out'%(wdir,args.directory)
+          running = [_.replace('jam-','').replace('.out','.msr') \
+                     for _ in os.listdir(path2running)\
+                     if _.endswith('err')==False]
+
+          done = os.listdir('%s/%s/msr'%(wdir,args.directory))
+          cnt,cnt2=0,0
+          for prior in msr[:100]:
+              cnt+=1
+              #if cnt==2: break
+              print('%d/%d  submitted=%d'%(cnt,len(msr),cnt2))
+              if prior in done: continue 
+              cnt2+=1
+              gen_script(partition,args.directory,'%s/%s'%(path2priors,prior))
+              os.system('sbatch current.sbatch')
+              time.sleep(3)
+
+    elif  args.task==2:
+
+          partition=args.partition
+
+          path2running='%s/%s/out'%(wdir,args.directory)
+          running = [_.replace('jam-','').replace('.out','.msr') \
+                     for _ in os.listdir(path2running)\
+                     if _.endswith('err')==False]
+
+          done = os.listdir('%s/%s/msr'%(wdir,args.directory))
+          cnt,cnt2=0,0
+          for i in range(1):
+              cnt+=1
+              #if cnt==2: break
+              print('%d  submitted'%(cnt))
+              gen_script(partition,args.directory)
+              os.system('sbatch current.sbatch')
+              time.sleep(3)
+
+
+
+
+
+
