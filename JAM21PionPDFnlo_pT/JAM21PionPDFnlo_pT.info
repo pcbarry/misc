@@ -1,6 +1,6 @@
 SetDesc:         "JAM21 Pion PDF NLO global fit w/ pT-dependent DY, alphas(MZ)=0.118."
 SetIndex:        00000
-Authors:         JAM-pion Collaboration. P. C. Barry, Chueng-Ryong Ji, N. Sato, W. Melnitchouk
+Authors:         JAM-pion Collaboration. N. Y. Cao, P. C. Barry, N. Sato, W. Melnitchouk
 Reference:       Phys. Rev. D 103, 114014 (2021).
 Format:          lhagrid1
 DataVersion:     1
