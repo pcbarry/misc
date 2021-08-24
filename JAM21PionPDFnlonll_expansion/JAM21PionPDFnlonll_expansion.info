@@ -1,11 +1,11 @@
-SetDesc:         "JAM21 Pion PDF NLO global fit, alphas(MZ)=0.118."
-SetIndex:        00000
+SetDesc:         "JAM21 Pion PDF NLO+NLL_expansion global fit, alphas(MZ)=0.118."
+SetIndex:        4000
 Authors:         JAM-pion Collaboration. P. C. Barry, Chueng-Ryong Ji, N. Sato, W. Melnitchouk
 Reference:       arXiv:2108.05822
 Format:          lhagrid1
 DataVersion:     1
-NumMembers:      786
-Particle:        2212
+NumMembers:      780
+Particle:        -211
 Flavors:         [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 21]
 OrderQCD:        1
 FlavorScheme:    variable
@@ -29,3 +29,4 @@ AlphaS_Qs: [1.14018E+00, 1.22539E+00, 1.32482E+00, 1.44156E+00, 1.57954E+00, 1.7
 AlphaS_Vals: [4.02912E-01, 3.83415E-01, 3.65250E-01, 3.48500E-01, 3.32128E-01, 3.16161E-01, 3.00622E-01, 2.88905E-01, 2.85531E-01, 2.69780E-01, 2.54587E-01, 2.39964E-01, 2.25920E-01, 2.13478E-01, 2.01645E-01, 1.90212E-01, 1.79192E-01, 1.68598E-01, 1.58435E-01, 1.48709E-01, 1.39420E-01, 1.30569E-01, 1.22151E-01, 1.14159E-01, 1.06587E-01, 9.94252E-02, ]
 AlphaS_Lambda4: 0
 AlphaS_Lambda5: 0
+Note: Negative pion PDFs fit to E615 and NA10 Drell-Yan data using NLO+NLL theory with expansion method, and H1 and ZEUS leading neutron data. Overall chi^2/Npts=0.95. https://arxiv.org/abs/2108.05822
