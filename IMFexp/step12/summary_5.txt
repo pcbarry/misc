@@ -1,0 +1,10 @@
+number of replicas is 45
+color of cluster is b
+  reaction        idx   col   particle             obs  npts      chi2b  chi2b/n       chi2   chi2/n    norm
+   dy-pion      10001  E615          W  dsig/drtau/dxF    61     52.705    0.864     54.382    0.892   1.108
+   dy-pion      10002  NA10          W  dsig/drtau/dxF    36     17.253    0.479     18.656    0.518   0.902
+   dy-pion      10003  NA10          W  dsig/drtau/dxF    20     11.024    0.551     12.443    0.622   0.846
+        ln       1000    H1          p            F2LN    58     23.046    0.397     25.048    0.432   1.254
+        ln       2000  ZEUS          p               R    50     78.719    1.574     81.705    1.634   0.945
+------------------------------------------------------------------------------------------------------------
+                                                         225    182.746    0.812    192.233    0.854
