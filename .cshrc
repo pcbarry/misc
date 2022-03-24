@@ -102,7 +102,7 @@ alias ml 'ssh iml19g01'
 
 
 #--anaconda
-setenv PATH /work/JAM/apps/anaconda3/bin:${PATH}
+#setenv PATH /work/JAM/apps/anaconda3/bin:${PATH}
 #setenv PATH /work/JAM/apps/anaconda2/bin:${PATH}
 #setenv PATH /u/apps/anaconda/python2/anaconda201812/bin:${PATH}
 #setenv PATH /u/apps/anaconda/python3/anaconda201812/bin:${PATH}
@@ -114,7 +114,9 @@ setenv PATH /enp/w/general-scifs17exp/JAM/apps/pypy-7.1.1-linux_x86_64-portable/
 #setenv LD_LIBRARY_PATH /work/JAM/apps/lib/:${LD_LIBRARY_PATH}
 
 #--jam1d 
-setenv FITPACK /work/JAM/barryp/JAM/fitpack/
+#setenv FITPACK /work/JAM/barryp/JAM/fitpack/
+setenv FITPACK /work/JAM/barryp/JAM/fitpack2/
+#setenv FITPACK /work/JAM/barryp/JAM/fitpack2testing/
 setenv ML4JAM /work/JAM/barryp/JAM/ml4jam
 #setenv PATH ${FITPACK}/bin:${PATH}
 setenv PATH ${FITPACK}:${PATH}
@@ -127,10 +129,13 @@ setenv PYTHONPATH ${FITPACK}
 #setenv PATH /work/JAM/apps/lhapdf2/bin:${PATH}
 #setenv PYTHONPATH /work/JAM/apps/lhapdf2/lib/python2.7/site-packages/
 #setenv LD_LIBRARY_PATH /work/JAM/apps/lhapdf2/lib#:${LD_LIBRARY_PATH}
-setenv PATH /work/JAM/apps/lhapdf2/bin:${PATH}
-setenv LD_LIBRARY_PATH /work/JAM/apps/lhapdf2/lib
-setenv PYTHONPATH /work/JAM/apps/lhapdf2/lib/python2.7/site-packages/:${PYTHONPATH}
-setenv LHAPDF_DATA_PATH /work/JAM/apps/lhapdf2/share/LHAPDF/
+setenv PATH /work/JAM/apps/LHAPDF/bin:${PATH}
+setenv LD_LIBRARY_PATH /work/JAM/apps/LHAPDF/lib
+setenv PYTHONPATH /work/JAM/apps/LHAPDF/lib/python2.7/site-packages/:${PYTHONPATH}
+setenv PYTHONPATH /work/JAM/apps/LHAPDF/lib/python3.6/site-packages/:${PYTHONPATH}
+setenv LHAPDF_DATA_PATH /work/JAM/apps/lhapdf_tables/more/more3/
+setenv LHAPDF_DATA_PATH /work/JAM/apps/lhapdf_tables:${LHAPDF_DATA_PATH}
+setenv LHAPDF_DATA_PATH /work/JAM/barryp/misc:${LHAPDF_DATA_PATH}
 
 
 #--HIJET 
