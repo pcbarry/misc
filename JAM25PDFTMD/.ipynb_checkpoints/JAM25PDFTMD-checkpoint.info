@@ -1,0 +1,33 @@
+SetDesc:         "First simultaneous global QCD analysis of transverse momentum dependent and collinear parton distributions in the proton"
+SetIndex:        950123
+Authors:         P. C. Barry, A. Prokudin, T. Anderson, C. Cocuzza, L. Gamberg, W. Melnitchouk, E. Moffat, D. Pitonyak, J.-W. Qiu, N. Sato, A. Vladimirov, and R. Whitehill
+Reference:       arXiv:25xx.xxxxx
+Format:          lhagrid1
+DataVersion:     1
+NumMembers:      875
+Particle:        2212
+Flavors:         [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 21]
+OrderQCD:        2
+FlavorScheme:    variable
+NumFlavors:      5
+ErrorType:       replicas
+XMin:            1.00e-07
+XMax:            1.00e+00
+QMin:            1.00e+00
+QMax:            1.00e+04
+XType:           log
+QType:           log
+MZ:              91.1876
+MUp:             0.0
+MDown:           0.0
+MStrange:        0.0
+MCharm:          1.280000
+MBottom:         4.180000
+MTop:            180.0
+AlphaS_MZ:       0.118000
+AlphaS_OrderQCD: 2
+AlphaS_Type:     ipol
+AlphaS_Qs:       [1.14000E+00, 1.42767E+00, 1.78794E+00, 2.23911E+00, 2.80414E+00, 3.51175E+00, 4.39792E+00, 5.50772E+00, 6.89756E+00, 8.63812E+00, 1.08179E+01, 1.35477E+01, 1.69664E+01, 2.12478E+01, 2.66096E+01, 3.33244E+01, 4.17336E+01, 5.22649E+01, 6.54536E+01, 8.19705E+01, 1.02655E+02, 1.28560E+02, 1.61001E+02, 2.01629E+02, 2.52509E+02, 3.16228E+02]
+AlphaS_Vals:     [4.02956E-01, 3.50336E-01, 3.12383E-01, 2.82242E-01, 2.57670E-01, 2.37218E-01, 2.20256E-01, 2.06687E-01, 1.94745E-01, 1.84151E-01, 1.74683E-01, 1.66168E-01, 1.58468E-01, 1.51468E-01, 1.45075E-01, 1.39214E-01, 1.33819E-01, 1.28836E-01, 1.24218E-01, 1.19928E-01, 1.15930E-01, 1.12195E-01, 1.08698E-01, 1.05417E-01, 1.02332E-01, 9.94252E-02]
+AlphaS_Lambda4:  0
+AlphaS_Lambda5:  0
