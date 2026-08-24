@@ -1,0 +1,13 @@
+[2026-08-12 17:55:27,404][gan_training_workflow][INFO] - Using seed: 42
+[2026-08-12 17:55:27,460][quantom_ips.gradient_transport.torch_base_gradient_transport][INFO] - 0 uses torch device: cuda:0 and is on processor: sciml2102.jlab.org
+[2026-08-12 17:55:27,460][quantom_ips.gradient_transport.torch_arar][INFO] - Running with group size: 1
+[2026-08-12 17:55:27,460][quantom_ips.gradient_transport.torch_arar][INFO] - Using strong coupling for outer communication
+[2026-08-12 17:55:27,460][quantom_ips.gradient_transport.torch_arar][INFO] - Inner Rank: 0 and Outer Rank 0 use torch device: cuda:0 and is on processor: sciml2102.jlab.org
+[2026-08-12 18:03:48,510][gan_training_workflow][INFO] - Using seed: 42
+[2026-08-12 18:03:48,565][quantom_ips.gradient_transport.torch_base_gradient_transport][INFO] - 0 uses torch device: cuda:0 and is on processor: sciml2102.jlab.org
+[2026-08-12 18:03:48,566][quantom_ips.gradient_transport.torch_arar][INFO] - Running with group size: 1
+[2026-08-12 18:03:48,566][quantom_ips.gradient_transport.torch_arar][INFO] - Using strong coupling for outer communication
+[2026-08-12 18:03:48,566][quantom_ips.gradient_transport.torch_arar][INFO] - Inner Rank: 0 and Outer Rank 0 use torch device: cuda:0 and is on processor: sciml2102.jlab.org
+[2026-08-12 18:03:49,801][quantom_ips.datasets.mpi_numpy_dataset][INFO] - Registered 100000 / 100000 events on rank 0
+[2026-08-12 18:03:49,812][quantom_ips.envs.theories.sidis_theory_Pperp][INFO] - Loaded validated bT -> Pperp2/z grid from grids/bTqT_grid_Pperp2_nbt=60_nz=20_nPperp2=20_ninterp=2_v2.pt (mem = 0.0001 GB)
+[2026-08-12 19:06:18,706][gan_training_workflow][INFO] - Training complete.
