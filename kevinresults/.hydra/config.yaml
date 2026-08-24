@@ -1,0 +1,209 @@
+opt:
+  id: distGAN
+  entry_point: quantom_ips.optimizers.distributed_gan_optimizer:DistributedGANOptimizer
+  discriminator:
+    id: MLPDiscriminator5D
+    entry_point: quantom_ips.models.mlp:MLP
+    input_dim: 5
+    output_dim: 1
+    hidden_dims:
+    - 256
+    - 128
+    out_activation: Sigmoid
+    dropout_rate: null
+    hidden_weight_initializer: kaiming_uniform
+    hidden_bias_initializer: normal
+    out_weight_initializer: xavier_uniform
+    out_bias_initializer: normal
+  generator:
+    id: SIDISGenerator_hybrid
+    entry_point: quantom_ips.models.sidis_generator_bT_hybrid:SIDISGeneratorbTHybrid
+    mlp_in: 128
+    mlp_hidden:
+    - 50
+    - 50
+    mlp_weight_initializer: kaiming_uniform
+    mlp_bias_initializer: normal
+    image_size:
+    - 20
+    - 60
+    in_channels: 64
+    hidden_channels:
+    - 64
+    - 64
+    channel_weight_initializer: kaiming_uniform
+    channel_bias_initializer: normal
+    out_channels: 1
+    x_min: 0.09691800736576857
+    x_max: 1.0
+    bt_min: 0.001
+    bt_max: 6.0
+    log_x: true
+    log_bt: false
+    bmax: 0.8
+    nbt_low: 20
+    hybrid_bt: true
+    coord_scale: 1.0
+    max_soft: 0.5
+  gradient_transport:
+    id: ARAR
+    entry_point: quantom_ips.gradient_transport.torch_arar:TorchARAR
+    master_rank: 0
+    group_size: 1
+    gradient_sync_mode: strong_arar
+    train_as_ensemble: false
+    disable_rma_rank_synchronization: false
+    dtype: float32
+  n_epochs: 1000
+  limit_batches: 10
+  limit_eval_batches: null
+  gen_opt: Adam
+  gen_lr: 1.0e-05
+  disc_opt: Adam
+  disc_lr: 2.0e-05
+  logdir: ${hydra:runtime.output_dir}
+  noise_dim: 128
+  label_noise: 0.05
+  loss_fn: bce
+  progress_bar: true
+  batch_size: 10
+  gradient_scale: 1.0
+  outer_group_update_frequency: 10
+  all_ranks_visible: false
+dataloader:
+  dataset:
+    id: mpi_numpy
+    entry_point: quantom_ips.datasets.mpi_numpy_dataset:MPINumpyDataset
+    path: /w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/sidis_Pperp2_v5_Q2min2_nbt60_log20_linear40_100k/wonderfullest_dataset.npy
+    n_particles: 1
+    n_samples: 1000
+    drop_remainder: true
+  id: mpi_numpy
+  entry_point: quantom_ips.datasets.basic_dataloader:BasicDataLoader
+  batch_size: 10
+  shuffle: true
+algorithms:
+  data_mover:
+    id: PyTorchDataMover
+    entry_point: quantom_ips.algorithms.pytorch_data_mover:PyTorchDataMover
+  logger:
+    id: LossTracker
+    entry_point: quantom_ips.algorithms.loss_tracker:LossTracker
+    logdir: ${hydra:runtime.output_dir}
+  scores:
+    id: ScoreTracker
+    entry_point: quantom_ips.algorithms.score_tracker:ScoreTracker
+    true_datapath: /w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/sidis_Pperp2_v5_Q2min2_nbt60_log20_linear40_100k/density.npy
+    filepath: ${hydra:runtime.output_dir}
+    frequency: 50
+    average: true
+    score: log_sad
+    log_score: false
+  events:
+    id: EventTracker
+    entry_point: quantom_ips.algorithms.event_tracker:EventTracker
+    filepath: ${hydra:runtime.output_dir}
+    frequency: 50
+    nbins: 20
+    fig_size:
+    - 15
+    - 5
+    axes_labels:
+    - $x$
+    - $Q^{2}$
+    - $z$
+    - $q_t$
+    - $\phi$
+  checkpointing:
+    id: ModelCheckpointing
+    entry_point: quantom_ips.algorithms.model_checkpointing:ModelCheckpointing
+    logdir: ${hydra:runtime.output_dir}
+    frequency: 50
+    save_untrained: true
+  env:
+    id: SIDISEnv
+    entry_point: quantom_ips.envs.sidis_env:SIDISEnv
+    theory:
+      id: SIDISTheoryPperp
+      entry_point: quantom_ips.envs.theories.sidis_theory_Pperp:SIDISTheory
+      lhapdf_data_path: /work/data_science/quantom/data/sidis_pdfs
+      lhapdf_proton_PDF: JAM20-SIDIS_PDF_proton_nlo
+      lhapdf_pion_FF: JAM20-SIDIS_FF_pion_nlo
+      order: 0
+      nx: 20
+      x:
+      - 0.2
+      - 1.0
+      nQ2: 20
+      Q0_GeV: 1.0
+      Q2:
+      - 2.0
+      - 10.0
+      nz: 20
+      z:
+      - 0.2
+      - 0.8
+      nqt: 20
+      qt:
+      - 0.0
+      - 6.25
+      qT_lim: 100.0
+      nbt: 60
+      nbt_low: 20
+      bt:
+      - 0.001
+      - 6.0
+      nphi: 5
+      phi:
+      - 0.001
+      - 6.283185307179586
+      W2_min_GeV: 4.0
+      Ebeam_GeV: 11.0
+      tar: p
+      had: pi+
+      average: false
+      log_x: true
+      log_Q2: false
+      log_z: false
+      bTqT_grid_file: grids
+      n_interp: 2
+      bTres: 1000
+      bmax: 0.8
+      prm_f2:
+      - 0.8418
+      - 4.3344
+      - 0.2397
+      - 0.2868
+      enable_cc: false
+      cc_nqt: 70
+      cc_qt:
+      - 0.0
+      - 1.0
+      cc_bmask_threshold: 2.0
+      cc_std_bt: 1.0
+      cc_log_qt: false
+      cc_bTqT_grid_file: grids
+      eps_mask: 1.0e-12
+      target_mass_GeV: 0.938
+      hadron_mass_GeV: 0.13957
+      derive_x_min_from_Q2min: true
+      derive_Q2_max_from_s: true
+      derive_qt_max_from_bound: false
+      qt_scan_min: 0.0
+      qt_scan_max_cap: 2.5
+      apply_kinematic_mask: true
+      use_Pperp_grid: true
+      apply_R2_bound: true
+      apply_qT_cut: false
+    sampler:
+      id: ITS_linear
+      entry_point: quantom_ips.envs.samplers.ITS_linear_interpol_v5:InverseTransformSampler
+    normalize_events: true
+    flatten_events: true
+    filter_events: true
+    sampling_initial_oversample_factor: 1.25
+    sampling_safety_factor: 1.1
+    sampling_max_rounds: 100
+autodetect_device: null
+seed: 42
+output_dir: ${hydra:runtime.output_dir}

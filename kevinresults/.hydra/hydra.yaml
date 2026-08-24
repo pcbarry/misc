@@ -1,0 +1,218 @@
+hydra:
+  run:
+    dir: /w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/tmd_Pperp2_v5_Q2min2_nbt60_log20_linear40_1000epochs
+  sweep:
+    dir: multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
+  launcher:
+    _target_: hydra._internal.core_plugins.basic_launcher.BasicLauncher
+  sweeper:
+    _target_: hydra._internal.core_plugins.basic_sweeper.BasicSweeper
+    max_batch_size: null
+    params: null
+  help:
+    app_name: ${hydra.job.name}
+    header: '${hydra.help.app_name} is powered by Hydra.
+
+      '
+    footer: 'Powered by Hydra (https://hydra.cc)
+
+      Use --hydra-help to view Hydra specific help
+
+      '
+    template: '${hydra.help.header}
+
+      == Configuration groups ==
+
+      Compose your configuration from those groups (group=option)
+
+
+      $APP_CONFIG_GROUPS
+
+
+      == Config ==
+
+      Override anything in the config (foo.bar=value)
+
+
+      $CONFIG
+
+
+      ${hydra.help.footer}
+
+      '
+  hydra_help:
+    template: 'Hydra (${hydra.runtime.version})
+
+      See https://hydra.cc for more info.
+
+
+      == Flags ==
+
+      $FLAGS_HELP
+
+
+      == Configuration groups ==
+
+      Compose your configuration from those groups (For example, append hydra/job_logging=disabled
+      to command line)
+
+
+      $HYDRA_CONFIG_GROUPS
+
+
+      Use ''--cfg hydra'' to Show the Hydra config.
+
+      '
+    hydra_help: ???
+  hydra_logging:
+    version: 1
+    formatters:
+      simple:
+        format: '[%(asctime)s][HYDRA] %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: simple
+        stream: ext://sys.stdout
+    root:
+      level: INFO
+      handlers:
+      - console
+    loggers:
+      logging_example:
+        level: DEBUG
+    disable_existing_loggers: false
+  job_logging:
+    version: 1
+    formatters:
+      simple:
+        format: '[%(asctime)s][%(name)s][%(levelname)s] - %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: simple
+        stream: ext://sys.stdout
+      file:
+        class: logging.FileHandler
+        formatter: simple
+        filename: ${hydra.runtime.output_dir}/${hydra.job.name}.log
+    root:
+      level: INFO
+      handlers:
+      - console
+      - file
+    disable_existing_loggers: false
+  env: {}
+  mode: RUN
+  searchpath: []
+  callbacks: {}
+  output_subdir: .hydra
+  overrides:
+    hydra:
+    - hydra.run.dir=/w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/tmd_Pperp2_v5_Q2min2_nbt60_log20_linear40_1000epochs
+    - hydra.mode=RUN
+    task:
+    - seed=42
+    - dataloader.dataset.path=/w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/sidis_Pperp2_v5_Q2min2_nbt60_log20_linear40_100k/wonderfullest_dataset.npy
+    - dataloader.dataset.n_samples=1000
+    - dataloader.batch_size=10
+    - opt.batch_size=10
+    - opt.n_epochs=1000
+    - opt.limit_batches=10
+    - opt.progress_bar=True
+    - opt.noise_dim=128
+    - opt.gen_lr=1e-5
+    - opt.disc_lr=2e-5
+    - opt.label_noise=0.05
+    - opt.loss_fn=bce
+    - opt.outer_group_update_frequency=10
+    - opt.gradient_transport.gradient_sync_mode=strong_arar
+    - opt.gradient_transport.group_size=1
+    - opt.generator.image_size=[20,60]
+    - opt.generator.nbt_low=20
+    - opt.generator.mlp_in=128
+    - opt.generator.mlp_hidden=[50,50]
+    - opt.generator.mlp_weight_initializer=kaiming_uniform
+    - opt.generator.mlp_bias_initializer=normal
+    - opt.generator.in_channels=64
+    - opt.generator.hidden_channels=[64,64]
+    - opt.generator.channel_weight_initializer=kaiming_uniform
+    - opt.generator.channel_bias_initializer=normal
+    - opt.generator.out_channels=1
+    - opt.generator.x_min=0.09691800736576857
+    - opt.generator.x_max=1.0
+    - opt.generator.bt_min=0.001
+    - opt.generator.bt_max=6.0
+    - opt.generator.bmax=0.8
+    - opt.generator.hybrid_bt=True
+    - opt.discriminator.hidden_dims=[256,128]
+    - algorithms.env.theory.Q0_GeV=1.0
+    - algorithms.env.theory.Q2=[2.0,10.0]
+    - algorithms.env.theory.nbt=60
+    - algorithms.env.theory.nbt_low=20
+    - algorithms.env.theory.bt=[0.001,6.0]
+    - algorithms.env.theory.use_Pperp_grid=true
+    - algorithms.env.theory.apply_qT_cut=false
+    - algorithms.env.theory.lhapdf_data_path=/work/data_science/quantom/data/sidis_pdfs
+    - algorithms.scores.true_datapath=/w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/sidis_Pperp2_v5_Q2min2_nbt60_log20_linear40_100k/density.npy
+    - algorithms.scores.frequency=50
+    - algorithms.events.frequency=50
+    - algorithms.checkpointing.frequency=50
+  job:
+    name: pytorch_workflow
+    chdir: null
+    override_dirname: algorithms.checkpointing.frequency=50,algorithms.env.theory.Q0_GeV=1.0,algorithms.env.theory.Q2=[2.0,10.0],algorithms.env.theory.apply_qT_cut=false,algorithms.env.theory.bt=[0.001,6.0],algorithms.env.theory.lhapdf_data_path=/work/data_science/quantom/data/sidis_pdfs,algorithms.env.theory.nbt=60,algorithms.env.theory.nbt_low=20,algorithms.env.theory.use_Pperp_grid=true,algorithms.events.frequency=50,algorithms.scores.frequency=50,algorithms.scores.true_datapath=/w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/sidis_Pperp2_v5_Q2min2_nbt60_log20_linear40_100k/density.npy,dataloader.batch_size=10,dataloader.dataset.n_samples=1000,dataloader.dataset.path=/w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/sidis_Pperp2_v5_Q2min2_nbt60_log20_linear40_100k/wonderfullest_dataset.npy,opt.batch_size=10,opt.disc_lr=2e-5,opt.discriminator.hidden_dims=[256,128],opt.gen_lr=1e-5,opt.generator.bmax=0.8,opt.generator.bt_max=6.0,opt.generator.bt_min=0.001,opt.generator.channel_bias_initializer=normal,opt.generator.channel_weight_initializer=kaiming_uniform,opt.generator.hidden_channels=[64,64],opt.generator.hybrid_bt=True,opt.generator.image_size=[20,60],opt.generator.in_channels=64,opt.generator.mlp_bias_initializer=normal,opt.generator.mlp_hidden=[50,50],opt.generator.mlp_in=128,opt.generator.mlp_weight_initializer=kaiming_uniform,opt.generator.nbt_low=20,opt.generator.out_channels=1,opt.generator.x_max=1.0,opt.generator.x_min=0.09691800736576857,opt.gradient_transport.gradient_sync_mode=strong_arar,opt.gradient_transport.group_size=1,opt.label_noise=0.05,opt.limit_batches=10,opt.loss_fn=bce,opt.n_epochs=1000,opt.noise_dim=128,opt.outer_group_update_frequency=10,opt.progress_bar=True,seed=42
+    id: ???
+    num: ???
+    config_name: sidis_training.yaml
+    env_set: {}
+    env_copy: []
+    config:
+      override_dirname:
+        kv_sep: '='
+        item_sep: ','
+        exclude_keys: []
+  runtime:
+    version: 1.3.2
+    version_base: '1.3'
+    cwd: /w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82
+    config_sources:
+    - path: hydra.conf
+      schema: pkg
+      provider: hydra
+    - path: /w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/workflow/conf
+      schema: file
+      provider: main
+    - path: /w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/sidis/conf
+      schema: file
+      provider: command-line
+    - path: ''
+      schema: structured
+      provider: schema
+    output_dir: /w/ceph24/JAM/kmbraga/SciDAC/Quantom/quantom-ips-82/examples/results/tmd_Pperp2_v5_Q2min2_nbt60_log20_linear40_1000epochs
+    choices:
+      env/sampler@algorithms.env.sampler: ITS_linear
+      env/theory@algorithms.env.theory: SIDISTheoryPperp
+      env@algorithms.env: SIDISEnv
+      algorithm@algorithms.checkpointing: ModelCheckpointing
+      algorithm@algorithms.events: EventTracker
+      algorithm@algorithms.scores: ScoreTracker
+      algorithm@algorithms.logger: LossTracker
+      algorithm@algorithms.data_mover: PyTorchDataMover
+      gradient_transport@opt.gradient_transport: ARAR
+      model@opt.discriminator: MLPDiscriminator5D
+      model@opt.generator: SIDISGenerator_hybrid
+      dataloader: mpi_numpy
+      dataloader/dataset: mpi_numpy
+      opt: distGAN
+      hydra/env: default
+      hydra/callbacks: null
+      hydra/job_logging: default
+      hydra/hydra_logging: default
+      hydra/hydra_help: default
+      hydra/help: default
+      hydra/sweeper: basic
+      hydra/launcher: basic
+      hydra/output: default
+  verbose: false
